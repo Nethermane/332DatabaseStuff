@@ -2,7 +2,7 @@
 <html>
 <body>
 <?php
-require_once('home.php');
+require_once('header.php');
 ?>
 </body>
 </html>
