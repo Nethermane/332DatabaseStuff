@@ -36,7 +36,7 @@
           <a class="nav-link" href="SpcaToShelter.php">SPCA to shelter</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="2018.php">2018</a>
+          <a class="nav-link" href="Donated-2018.php">Donated-2018</a>
         </li>
       </ul>
     </div>
