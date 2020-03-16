@@ -5,7 +5,7 @@ if(array_key_exists("searchValue",$_GET)) {
     $lastSearch = $_GET["searchValue"];
 }
 echo '<div class="md-form mt-2 mb-2 ml-2 mr-2">
-<form method="get" action="index.php">
+<form method="get" action="AnimalSearch.php">
     <label for="shelter_home_search">Shelter</label>
     <input type="text" id="shelter_home_search" class="form-control mb-2" id="txtSearch" name="searchValue" class="searchInput" value="' . $lastSearch . '"/>
     <input type="submit" id="btnSubmit" name="btnSubmit" value="Search" />
@@ -13,32 +13,36 @@ echo '<div class="md-form mt-2 mb-2 ml-2 mr-2">
 </div>';
 ?>
 <?php
-/* Attempt MySQL server connection. Assuming you are running MySQL
-server with default setting (user 'root' with no password) */
-$link = mysqli_connect("localhost", "root", "", "animal_rescue_application");
- 
-// Check connection
-if($link === false){
-    die("ERROR: Could not connect. " . mysqli_connect_error());
-}
+try {
+    $dbhost = 'localhost';
+    $dbname='animal_rescue_application';
+    $dbuser = 'root';
+    $dbpass = '';
+    $connec = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+} catch (PDOException $e) {
+    echo "Error : " . $e->getMessage() . "<br/>";
+    die();
+}	
 $sql = "";
+$count = "";
 if(!array_key_exists("searchValue",$_GET) || $_GET["searchValue"] == "") {
     $sql = "SELECT * FROM animal";
+    $count = "SELECT COUNT(*) FROM animal";
 }
 else {
     $sql = "SELECT * FROM animal where shelter_home = '$_GET[searchValue]'" ;
+    $count = "SELECT COUNT(*) FROM animal where shelter_home = '$_GET[searchValue]'" ;
 }
 
-
-if($result = mysqli_query($link, $sql)){	
-    if(mysqli_num_rows($result) > 0){
+if($res = $connec->query($count)){	
+    if ($res->fetchColumn() > 0) {
         echo "<div class='m-2'><table class='table'>";
             echo "<tr>";
                 echo "<th>animal_id</th>";
                 echo "<th>animal_type</th>";
                 echo "<th>shelter_home</th>";
             echo "</tr>";
-        while($row = mysqli_fetch_array($result)){
+        foreach ($connec->query($sql) as $row) {
             echo "<tr>";
                 echo "<td>" . $row['animal_id'] . "</td>";
                 echo "<td>" . $row['animal_type'] . "</td>";
@@ -46,15 +50,11 @@ if($result = mysqli_query($link, $sql)){
             echo "</tr>";
         }
         echo "</table></div>";
-        // Free result set
-        mysqli_free_result($result);
     } else{
         echo "<div class='m-2'>" . "No records matching your query for '$_GET[searchValue]'." . "</div>";
     }
 } else{
-    echo "<div class='m-2'>" .  "ERROR: Could not able to execute $sql. " . mysqli_error($link) . "</div>";
+    echo "<div class='m-2'>No rows matched query</div>";
 }
  
-// Close connection
-mysqli_close($link);
 ?>
