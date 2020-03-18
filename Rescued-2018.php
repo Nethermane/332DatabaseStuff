@@ -8,6 +8,7 @@ if(array_key_exists("searchFirstValue",$_GET) && array_key_exists("searchSecondV
 }
 echo '<div class="md-form mt-2 mb-2 ml-2 mr-2">
 <form method="get" action="Rescued-2018.php">
+    <label for ="shelter_home_search"> Find out how many animals were rescued by organizations between desired dates:</label><br>
     <label for="shelter_home_search">Start Date (YYYY/MM/DD)</label>
     <input type="text" id="shelter_home_search" class="form-control mb-2" id="txtSearch" name="searchFirstValue" class="searchInput" value="' . $startDate . '"/>
     <label for="shelter_home_search">End Date (YYYY/MM/DD)</label>
