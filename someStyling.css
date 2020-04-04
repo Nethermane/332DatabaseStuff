@@ -1,0 +1,45 @@
+
+h1 {
+    position: relative;
+    left: 25px; 
+
+}
+
+h2 {
+    position: relative;
+    left: 25px; 
+}
+
+h6 {
+    position: relative;
+    left: 25px; 
+    font-style: italic;
+}
+
+p {
+    position: relative;
+    left: 25px;
+}
+
+table {
+    position: relative;
+    left: 10px; 
+}
+
+thead {
+    font-weight: bold;
+}
+
+input {
+    background-color: transparent;
+    border: none; 
+    text-align: center;
+    color: dodgerblue;
+}
+input[type=submit]:hover{
+    text-decoration:underline;
+}
+
+div {
+    resize: both;
+}
