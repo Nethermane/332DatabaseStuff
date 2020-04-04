@@ -32,8 +32,8 @@ if(!array_key_exists("searchValue",$_GET) || $_GET["searchValue"] == "") {
         GROUP BY organization.management_id " ;
 }
 else {
-    $sql = "SELECT * FROM donation INNER JOIN Organization on donation.donate_to= Organization.management_id  INNER JOIN animal_management on Organization.management_id= animal_management.management_id where name = '$_GET[searchValue]' AND donation_date >= '2018-01-01' 
-         AND donation_date <= '2018-12-31' 
+    $sql = "SELECT * FROM donation INNER JOIN Organization on donation.donate_to= Organization.management_id  INNER JOIN animal_management on Organization.management_id= animal_management.management_id where name = '$_GET[searchValue]' AND donation_date > '2017-12-31' 
+         AND donation_date < '2019-01-01' 
          GROUP BY management_id " ;
     $count = "SELECT COUNT(*) FROM donation INNER JOIN Organization on donation.donate_to= Organization.management_id  INNER JOIN animal_management on Organization.management_id= animal_management.management_id " ;
 }
@@ -42,8 +42,8 @@ if($res = $connec->query($count)){
     if ($res->fetchColumn() > 0) {
         echo "<div class='m-2'><table class='table'>";
             echo "<tr>";
-                echo "<th>organization</th>";
-                echo "<th>amount</th>";
+                echo "<th>Organization</th>";
+                echo "<th>Amount</th>";
             echo "</tr>";
         foreach ($connec->query($sql) as $row) {
             echo "<tr>";

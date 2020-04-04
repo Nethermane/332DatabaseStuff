@@ -24,12 +24,6 @@
           <a class="nav-link" href="Drivers.php">Drivers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="Donors.php">Donors</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="OrganizationDonations.php">Org Donations</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="Adopt.php">Adopt</a>
         </li>
         <li class="nav-item">
