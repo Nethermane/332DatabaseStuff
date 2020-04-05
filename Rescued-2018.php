@@ -29,26 +29,7 @@ try {
     echo "Error : " . $e->getMessage() . "<br/>";
     die();
 }   
-/*
-$sql = "";
-$count = "";
-if((!array_key_exists("searchFirstValue",$_GET) && !array_key_exists("searchSecondValue",$_GET)) || ($_GET["searchFirstValue"] == "" && $_GET["searchSecondValue"] == "") )  {
-    $sql = "SELECT COUNT(animal_id) as Total_Rescued FROM animal";
-    $count = "SELECT COUNT(*) FROM animal";
-}
-else if((!array_key_exists("searchFirstValue",$_GET) && array_key_exists("searchSecondValue",$_GET) )|| ($_GET["searchFirstValue"] == "" && !$_GET["searchSecondValue"] == "")){
-    $sql= "SELECT COUNT(animal_id) as Total_Rescued FROM `driver_trip` WHERE transport_date <'$endDate'";
-    $count = "SELECT COUNT(*) as Total_Rescued FROM `driver_trip` WHERE transport_date <'$endDate'";
-}
-else if((array_key_exists("searchFirstValue",$_GET) && !array_key_exists("searchSecondValue",$_GET) )|| (!$_GET["searchFirstValue"] == "" && !$_GET["searchSecondValue"] == "")){
-    $sql= "SELECT COUNT(animal_id) as Total_Rescued FROM `driver_trip` WHERE transport_date >'$startDate'";
-    $count = "SELECT COUNT(*) as Total_Rescued FROM `driver_trip` WHERE transport_date > '$startDate'";
-}
-else {
-    $sql= "SELECT COUNT(animal_id) as Total_Rescued FROM `driver_trip` WHERE transport_date BETWEEN '$startDate' and '$endDate'";
-    $count = "SELECT COUNT(*) as Total_Rescued FROM `driver_trip` WHERE transport_date BETWEEN '$startDate' and '$endDate'";
-}
-*/
+
 
 $endDate= date('Y-m-d', strtotime($endDate. ' + 1 days'));
 $sql= "SELECT COUNT(animal_id) as Total_Rescued FROM `driver_trip` WHERE transport_date BETWEEN '$startDate' and '$endDate'";

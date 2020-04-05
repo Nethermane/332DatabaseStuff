@@ -26,16 +26,18 @@ try {
 $sql = "";
 $count = "";
 if(!array_key_exists("searchValue",$_GET) || $_GET["searchValue"] == "") {
-    $sql = "SELECT name,  SUM(amount) as TotalAmount FROM `donation`  JOIN `organization` on donation.donate_to= organization.management_id  INNER JOIN `animal_management` on organization.management_id = animal_management.management_id where donation_date >= '2018-01-01'  AND donation_date <= '2018-12-31' 
+    $sql = "SELECT *,  SUM(amount) as TotalAmount FROM `donation`  JOIN `organization` on donation.donate_to= organization.management_id  INNER JOIN `animal_management` on organization.management_id = animal_management.management_id where donation_date >= '2018-01-01'  AND donation_date <= '2018-12-31' 
     GROUP BY organization.management_id " ;
     $count = "SELECT COUNT(*) FROM `donation` INNER JOIN `organization` on donation.donate_to= organization.management_id  INNER JOIN `animal_management` on organization.management_id = animal_management.management_id 
         GROUP BY organization.management_id " ;
 }
 else {
-    $sql = "SELECT name, SUM(amount) as TotalAmount FROM donation INNER JOIN Organization on donation.donate_to= Organization.management_id  INNER JOIN animal_management on Organization.management_id= animal_management.management_id where name = '$_GET[searchValue]' AND donation_date > '2017-12-31' 
-         AND donation_date < '2019-01-01' 
-         GROUP BY management_id " ;
-    $count = "SELECT COUNT(*) FROM donation INNER JOIN Organization on donation.donate_to= Organization.management_id  INNER JOIN animal_management on Organization.management_id= animal_management.management_id " ;
+    $sql = "SELECT name,  SUM(amount) as TotalAmount
+FROM `donation`  JOIN `organization` on donation.donate_to= organization.management_id  INNER JOIN `animal_management` on organization.management_id = animal_management.management_id where name = '$_GET[searchValue]' and donation_date >= '2018-01-01'  AND donation_date <= '2018-12-31' 
+    GROUP BY organization.management_id  " ;
+    $count = "SELECT COUNT(name),  SUM(amount) as TotalAmount
+FROM `donation`  JOIN `organization` on donation.donate_to= organization.management_id  INNER JOIN `animal_management` on organization.management_id = animal_management.management_id where name = '$_GET[searchValue]' and donation_date >= '2018-01-01'  AND donation_date <= '2018-12-31' 
+    GROUP BY organization.management_id  " ;
 }
 
 if($res = $connec->query($count)){  
