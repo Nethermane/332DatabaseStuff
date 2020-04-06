@@ -28,16 +28,22 @@ if(isset($_GET['btnSubmit'])) {
             } else {
                 $sql = "INSERT INTO adoption(animal_id,amount,last_name,phone_number) VALUES('" . $_GET['animal_id'] . "','0','" . $_GET['last_name'] . "','" . $_GET['phone_number'] . "');";
             }
-            try {
-                if(!$connec->prepare($sql)->execute()) {
-                    echo"<p style='color: red'>Invalid Animal ID or family not in system</p>";
-                    $refill_fields = True;
-                } else {
-                    echo"<p style='color: green'>Sucessfully adopted animal no." . $id . "</p>";
+            if(!is_numeric($_GET['paid'])) {
+                echo "<p style='color: red'>Paid must be a number (No other characters except .)</p>";
+            } else if ($_GET['paid'] < 0) {
+                echo "<p style='color: red'>Paid must be a positive</p>";
+            } else {
+                try {
+                    if(!$connec->prepare($sql)->execute()) {
+                        echo"<p style='color: red'>Invalid Animal ID or family not in system</p>";
+                        $refill_fields = True;
+                    } else {
+                        echo"<p style='color: green'>Sucessfully adopted animal no." . $id . "</p>";
+                    }
+                } catch (PDOException $e) {
+                    echo"<p style='color: red'>Invalid parameter " . $e . "</p>";
                 }
-            } catch (PDOException $e) {
-                echo"<p style='color: red'>Invalid parameter " . $e . "</p>";
-            }
+                }
         }
     } else {
         echo"<p style='color: red'>Missing parameter</p>";
@@ -69,17 +75,17 @@ if(isset($_GET['btnSubmit'])) {
         }
         echo '</select>
         <label for="lastName">Last name</label>
-        <select type="text" id="lastName" class="form-control mb-2" name="last_name" class="searchInput">
+        <select type="text" id="lastName" class="form-control mb-2" name="last_name" class="searchInput" onchange="setIndex()">
         ';
         foreach ($connec->query($family) as $row) {
             echo "<option value='". $row['last_name'] . "'>" . $row['last_name'] . "</option>";
         }
         echo '</select>
         <label for="phoneNum">Phone number</label>
-        <select type="text" id="phoneNum" class="form-control mb-2" name="phone_number" class="searchInput"/>
+        <select readonly type="text" id="phoneNum" class="form-control mb-2" name="phone_number" class="searchInput"/>
         ';
         foreach ($connec->query($family) as $row) {
-            echo "<option value='". $row['phone_number'] . "'>" . $row['phone_number'] . " (". $row['last_name'] . ")</option>";
+            echo "<option value='". $row['phone_number'] . "'>" . $row['phone_number'] . "</option>";
         }
         echo '</select>
         <label for="paid">Paid($)</label>
@@ -125,3 +131,9 @@ if($res = $connec->query($count)){
 $res = null;
 $connec = null;
 ?>
+<script> 
+function setIndex() {
+    var index = document.getElementById("lastName").selectedIndex;
+    document.getElementById("phoneNum").selectedIndex = index;
+}
+</script> 
