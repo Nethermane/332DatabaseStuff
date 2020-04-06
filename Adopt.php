@@ -23,14 +23,16 @@ if(isset($_GET['btnSubmit'])) {
             echo"<p style='color: red'>Missing parameter</p>";
         } else {
             $sql = "";
+            $paid_one = false;
             if(isset($_GET['paid']) && !empty($_GET['paid'])) {
                 $sql = "INSERT INTO adoption(animal_id,amount,last_name,phone_number) VALUES('" . $_GET['animal_id'] . "','" . $_GET['paid'] . "','" . $_GET['last_name'] . "','" . $_GET['phone_number'] . "');";
+                $paid_one = true;
             } else {
                 $sql = "INSERT INTO adoption(animal_id,amount,last_name,phone_number) VALUES('" . $_GET['animal_id'] . "','0','" . $_GET['last_name'] . "','" . $_GET['phone_number'] . "');";
             }
-            if(!is_numeric($_GET['paid'])) {
+            if($paid_one && !is_numeric($_GET['paid'])) {
                 echo "<p style='color: red'>Paid must be a number (No other characters except .)</p>";
-            } else if ($_GET['paid'] < 0) {
+            } else if ($paid_one && $_GET['paid'] < 0) {
                 echo "<p style='color: red'>Paid must be a positive</p>";
             } else {
                 try {
