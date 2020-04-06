@@ -26,12 +26,12 @@ try {
 $sql = "";
 $count = "";
 if(!array_key_exists("searchValue",$_GET) || $_GET["searchValue"] == "") {
-    $sql = "SELECT * FROM animal left join animal_management on shelter_home = management_id";
-    $count = "SELECT COUNT(*) FROM animal left join animal_management on shelter_home = management_id";
+    $sql = "SELECT * FROM animal left join animal_management on shelter_home = management_id where animal_id not in (select animal_id from adoption)";
+    $count = "SELECT COUNT(*) FROM animal left join animal_management on shelter_home = management_id where animal_id not in (select animal_id from adoption)";
 }
 else {
-    $sql = "SELECT * FROM animal left join animal_management on shelter_home = management_id where name like '%$_GET[searchValue]%';";
-    $count = "SELECT COUNT(*) FROM animal left join animal_management on shelter_home = management_id where name like '%$_GET[searchValue]%';";
+    $sql = "SELECT * FROM animal left join animal_management on shelter_home = management_id where name like '%$_GET[searchValue]%' and animal_id not in (select animal_id from adoption)";
+    $count = "SELECT COUNT(*) FROM animal left join animal_management on shelter_home = management_id where name like '%$_GET[searchValue]%' and animal_id not in (select animal_id from adoption)";
 }
 if($res = $connec->query($count)){
     if ($res->fetchColumn() > 0) {
@@ -45,7 +45,7 @@ if($res = $connec->query($count)){
             echo "<tr>";
                 echo "<td>" . $row['animal_id'] . "</td>";
                 echo "<td>" . $row['animal_type'] . "</td>";
-                echo "<td>" . $row['name'] . "</td>";
+                echo "<td>" . "<a href='AnimalSearch.php?searchValue=" . $row['name'] . "&btnSubmit=Search'>" . $row['name'] . "</a></td>";
             echo "</tr>";
         }
         echo "</table></div>";
